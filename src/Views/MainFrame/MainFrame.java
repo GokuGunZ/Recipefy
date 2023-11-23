@@ -1,12 +1,17 @@
-package Tests;
+package Views.MainFrame;
+import Controllers.MainFrameController;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame {
 
     private JPanel mainPanel;
+    public MainFrameController mfc;
 
     public MainFrame(){
+        mfc = new MainFrameController(this);
+
         JFrame frame = new JFrame("Recipefy");
         Toolkit kit = Toolkit.getDefaultToolkit(); //Istanzio il toolkit
         Dimension screenSize = kit.getScreenSize(); //Prendo la dimensione dello schermo
@@ -29,11 +34,9 @@ public class MainFrame {
 
     }
 
-    public void updateMainPanel(String content) {
+    public void updateMainPanel(JPanel panel) {
         mainPanel.removeAll();
-        JLabel optionLabel = new JLabel(content);
-        optionLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(optionLabel, BorderLayout.CENTER);
+        mainPanel.add(panel, BorderLayout.CENTER);
 
         // Refresh the main panel
         mainPanel.revalidate();

@@ -1,4 +1,4 @@
-package Tests;
+package Views.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 public class NavBar extends JPanel {
     private MainFrame mainFrame;
-    private JPanel sidebar;
     private JPanel buttonPanel;
 
 
@@ -27,9 +26,9 @@ public class NavBar extends JPanel {
         JButton button3 = new JButton("Favorites");
 
         // Add action listeners to the buttons to handle navigation
-        button1.addActionListener(new NavigationListener());
-        button2.addActionListener(new NavigationListener());
-        button3.addActionListener(new NavigationListener());
+        button1.addActionListener(new Nav1Listener());
+        button2.addActionListener(new Nav2Listener());
+        button3.addActionListener(new Nav3Listener());
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -41,17 +40,20 @@ public class NavBar extends JPanel {
     }
 
     // ActionListener to handle button clicks for navigation
-    private class NavigationListener implements ActionListener {
+    private class Nav1Listener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JButton source = (JButton) e.getSource();
-            if (source.getText().equals("Personal Cookbook")) {
-                mainFrame.updateMainPanel("Displaying Option 1 content");
-            } else if (source.getText().equals("Search Page")) {
-                mainFrame.updateMainPanel("Displaying Option 2 content");
-            } else if (source.getText().equals("Favorites")) {
-                mainFrame.updateMainPanel("Displaying Option 3 content");
-            }
+            mainFrame.mfc.createAndDisplayUserPan();
+        }
+    }    private class Nav2Listener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.mfc.createAndDisplaySearchPan();
+        }
+    }    private class Nav3Listener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            mainFrame.mfc.createAndDisplayFavPan();
         }
     }
 }
