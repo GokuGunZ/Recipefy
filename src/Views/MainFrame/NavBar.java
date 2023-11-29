@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 
 public class NavBar extends JPanel {
     private MainFrame mainFrame;
-    private JPanel buttonPanel;
 
 
     public NavBar(MainFrame mainFrame) {
@@ -19,7 +18,7 @@ public class NavBar extends JPanel {
         this.add(new JLabel(""));
 
 
-        buttonPanel = new JPanel(new GridLayout(3, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
 
         JButton button1 = new JButton("Personal Cookbook");
         JButton button2 = new JButton("Search Page");
@@ -45,12 +44,14 @@ public class NavBar extends JPanel {
         public void actionPerformed(ActionEvent e) {
             mainFrame.mfc.createAndDisplayUserPan();
         }
-    }    private class Nav2Listener implements ActionListener {
+    }
+    private class Nav2Listener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainFrame.mfc.createAndDisplaySearchPan();
         }
-    }    private class Nav3Listener implements ActionListener {
+    }
+    private class Nav3Listener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainFrame.mfc.createAndDisplayFavPan();

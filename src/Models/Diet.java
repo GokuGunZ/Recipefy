@@ -15,4 +15,10 @@ package Models;
  *
  */
 public class Diet {
+    int DietID;
+    int DietitianID;
+    String DietName;
+    //MealPlan MealPlan;
+    UserModel[] SharedWith;
+    String NutritionInfo;
 }

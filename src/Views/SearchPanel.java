@@ -1,23 +1,26 @@
 package Views;
 
+import Beans.User;
+import Controllers.MainFrameController;
 import Views.MainFrame.MainPanel;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SearchPanel implements MainPanel {
-    private JPanel panel;
+public class SearchPanel extends JPanel implements MainPanel {
+    private User authedUser;
 
-    public SearchPanel() {
-        panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+    public SearchPanel(MainFrameController mfc) {
+        this.authedUser = mfc.getUser();
+        this.setLayout(new BorderLayout());
         JLabel label = new JLabel("Search Panel Content");
         label.setHorizontalAlignment(SwingConstants.CENTER);
-        panel.add(label, BorderLayout.CENTER);
+        this.add(label, BorderLayout.CENTER);
     }
 
     @Override
     public JPanel getPanel(){
-        return panel;
+        return this;
     }
 }

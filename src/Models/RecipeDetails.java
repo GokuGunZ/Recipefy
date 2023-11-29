@@ -17,4 +17,17 @@ package Models;
  */
 
 public class RecipeDetails {
+    int RecipeID;
+    String Description;
+    String Ingredients;
+    String Instruction;
+    String PreparationTime;
+    String CookingTime;
+    String TotalTime;
+    //Enumeration DifficultyLevel;
+    //Enumeration CuisineType;
+    //Enumeration MealType;
+    int CaloricInfo;
+    //Enumeration Ratings;
+
 }

@@ -17,4 +17,14 @@ package Models;
  *
  */
 public class Review {
+    int ReviewID;
+    int RecipeID;
+    int UserID;
+    //Enumeration OverallRating;
+    //Enumeration TasteRating;
+    //Enumeration PreparationRating;
+    //Enumeration ReproducibilityRating;
+    //Enumeration StalenessRating;
+    String Comment;
+    //DateTime DatePosted;
 }

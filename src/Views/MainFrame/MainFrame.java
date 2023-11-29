@@ -1,37 +1,30 @@
 package Views.MainFrame;
+import Beans.User;
 import Controllers.MainFrameController;
+import Views.Recipefy.LoginFrame;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class MainFrame {
+public class MainFrame extends JFrame{
 
     private JPanel mainPanel;
     public MainFrameController mfc;
+    private User userAuthed;
 
     public MainFrame(){
+        super("Recipefy");
         mfc = new MainFrameController(this);
 
-        JFrame frame = new JFrame("Recipefy");
         Toolkit kit = Toolkit.getDefaultToolkit(); //Istanzio il toolkit
         Dimension screenSize = kit.getScreenSize(); //Prendo la dimensione dello schermo
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        frame.setSize(screenWidth*84/100, screenHeight*84/100); //Definisce le dimensioni
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        this.setSize(screenWidth*84/100, screenHeight*84/100); //Definisce le dimensioni
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
 
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());
-        JLabel defaultLabel = new JLabel("Main Frame Content");
-        defaultLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(defaultLabel, BorderLayout.CENTER);
-
-        NavBar navigationSidebar = new NavBar(this);
-        frame.add(navigationSidebar, BorderLayout.WEST);
-        frame.add(mainPanel, BorderLayout.CENTER);
-
-
+        this.renderLoginFrame();
     }
 
     public void updateMainPanel(JPanel panel) {
@@ -41,6 +34,29 @@ public class MainFrame {
         // Refresh the main panel
         mainPanel.revalidate();
         mainPanel.repaint();
+    }
+
+    public void renderLoginFrame(){
+        this.add(new LoginFrame(this), BorderLayout.CENTER);
+    }
+
+    public void renderAuthenticatedUI(User user){
+        this.mfc.setAuthedUser(user);
+        this.getContentPane().removeAll();
+
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout());
+        JLabel defaultLabel = new JLabel("Welcome to Recipefy! \n Use the navigation Bar on the side to browse the application!");
+        defaultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        mainPanel.add(defaultLabel, BorderLayout.CENTER);
+
+
+        this.add(new NavBar(this), BorderLayout.WEST);
+
+        this.add(mainPanel, BorderLayout.CENTER);
+
+        this.revalidate();
+        this.repaint();
     }
 
     public static void main(String[] args) {

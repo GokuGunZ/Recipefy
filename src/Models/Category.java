@@ -12,4 +12,8 @@ package Models;
  *
  */
 public class Category {
+    int TagID;
+    int UserID;
+    String CategoryName;
+    String Tag;
 }

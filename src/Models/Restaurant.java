@@ -14,4 +14,10 @@ package Models;
  *
  */
 public class Restaurant {
+    int RestaurantID;
+    int UserID;
+    String Nome;
+    String Indirizzo;
+    String Orario;
+    Recipe[] Menu;
 }

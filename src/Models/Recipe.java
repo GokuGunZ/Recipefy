@@ -16,4 +16,8 @@ package Models;
  *
  */
 public class Recipe {
+    int RecipeID;
+    int UserID;
+    String Title;
+    int RecipeDetailsID;
 }
