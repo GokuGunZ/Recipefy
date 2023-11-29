@@ -7,7 +7,6 @@ import Utility.DatabaseConnection;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -53,7 +52,7 @@ public class UserModel implements UpdateableModel{
     String email;
     String Password;
     //Enumeration UserType;
-    Recipe[] RecipeList;
+    RecipeModels[] RecipeList;
     public UserModel(MainFrameController mfc){
         this.mfc = mfc;
     }
