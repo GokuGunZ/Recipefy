@@ -1,6 +1,7 @@
 package Models;
 
 
+import Beans.Recipe;
 import Utility.DatabaseConnection;
 
 import java.sql.*;
@@ -19,11 +20,19 @@ import java.sql.*;
  * @Method ReviewID[] GetReviewList(int Recipe ID)
  *
  */
-public class RecipeModels {
-    int RecipeID;
-    int UserID;
-    String Title;
-    int RecipeDetailsID;
+public class RecipeModel {
+    int recipeID;
+    int userID;
+    String title;
+    String thumbUrl;
+    int recipeDetailsID;
+    public RecipeModel(int recipeID, int userID, String title, String thumbUrl, int recipeDetailsID){
+        this.recipeID = recipeID;
+        this.userID = userID;
+        this.title = title;
+        this.thumbUrl = thumbUrl;
+        this.recipeDetailsID = recipeDetailsID;
+    }
     public static int createRecipe(int userID, String title) throws SQLException {
         Connection DBConn = DatabaseConnection.getInstance();
         String selectUserQuery = "INSERT INTO recipe (UserID, Title) VALUES (?, ?)";
@@ -41,11 +50,30 @@ public class RecipeModels {
 
     public static boolean addRecipeDetail(int recipeID, int recipeDetailsID) throws  SQLException{
         Connection DBConn = DatabaseConnection.getInstance();
-        String selectUserQuery = "UPDATE user SET recipeDetailsID = ? WHERE recipeID = ?";
+        String selectUserQuery = "UPDATE recipe SET recipeDetailsID = ? WHERE recipeID = ?";
         PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setInt(1, recipeDetailsID);
         preparedStatement.setInt(2, recipeID);
         int insertedRows = preparedStatement.executeUpdate();
         return true;
     }
+    public static Recipe getRecipeByID(int recipeID) throws SQLException {
+        Connection DBConn = DatabaseConnection.getInstance();
+        String selectUserQuery = "SELECT * FROM recipe WHERE recipeID = ?";
+        PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery);
+        preparedStatement.setInt(1, recipeID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Recipe recipe = null;
+        while (resultSet.next()) {
+            recipe = new Recipe(resultSet);
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return recipe;
+    }
+    public int getUserID() {return userID;};
+    public int getRecipeID() {return recipeID;};
+    public String getTitle() {return title;};
+    public String getThumbUrl() {return thumbUrl;};
+    public int getRecipeDetailsID() {return recipeDetailsID;};
 }

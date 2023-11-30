@@ -1,11 +1,13 @@
 package Controllers;
+
 import Beans.User;
 import Factory.MainPanelFactory;
-import Models.UserModel;
 import Views.MainFrame.MainFrame;
 import Views.MainFrame.MainPanel;
 
-import javax.swing.JPanel;
+import javax.swing.*;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class MainFrameController {
     private MainFrame mainFrame;
@@ -19,7 +21,7 @@ public class MainFrameController {
         mainFrame.updateMainPanel(panel);
     }
 
-    public void createAndDisplayUserPan() {
+    public void createAndDisplayUserPan() throws IOException, SQLException {
         MainPanel userPanel = MainPanelFactory.createUserPanel(this);
         displayModule(userPanel);
     }

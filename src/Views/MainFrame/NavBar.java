@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class NavBar extends JPanel {
     private MainFrame mainFrame;
@@ -42,7 +44,13 @@ public class NavBar extends JPanel {
     private class Nav1Listener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            mainFrame.mfc.createAndDisplayUserPan();
+            try {
+                mainFrame.mfc.createAndDisplayUserPan();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
     private class Nav2Listener implements ActionListener {

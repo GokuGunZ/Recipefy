@@ -1,14 +1,16 @@
 package Factory;
 
-import Beans.User;
 import Controllers.MainFrameController;
 import Views.FavoritePanel;
 import Views.MainFrame.MainPanel;
 import Views.SearchPanel;
 import Views.User.UserPanel;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
 public class MainPanelFactory {
-    public static MainPanel createUserPanel(MainFrameController mfc) {
+    public static MainPanel createUserPanel(MainFrameController mfc) throws IOException, SQLException {
         return new UserPanel(mfc);
     }
 

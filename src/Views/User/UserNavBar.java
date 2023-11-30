@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
 
 public class UserNavBar extends JPanel {
     MainFrameController mfc;
@@ -31,7 +33,13 @@ public class UserNavBar extends JPanel {
         allPanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userPanel.updateCenterPanel(new AllPanel(userPanel, mfc));
+                try {
+                    userPanel.updateCenterPanel(new AllPanel(userPanel, mfc));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         catPanel.addActionListener(new ActionListener() {

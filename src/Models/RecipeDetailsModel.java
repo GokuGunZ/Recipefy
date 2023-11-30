@@ -1,5 +1,6 @@
 package Models;
 
+import Beans.RecipeDetail;
 import Utility.DatabaseConnection;
 import Views.Recipe.CreatePanel;
 import org.json.JSONArray;
@@ -10,21 +11,6 @@ import java.awt.*;
 import java.sql.*;
 
 public class RecipeDetailsModel {
-    int recipeID;
-    String description;
-    String ingredients;
-    String instruction;
-    String preparationTime;
-    String cookingTime;
-    String totalTime;
-    String difficultyLeve;
-    //Enumeration DifficultyLevel;
-    String cuisineType;
-    //Enumeration CuisineType;
-    String[] nutritionalAttributes;
-    //Enumeration MealType;
-    String caloricInfo;
-    double Ratings;
 
     public static int createRecipeDetail(int recipeID, CreatePanel createPanel) throws SQLException {
         Connection DBConn = DatabaseConnection.getInstance();
@@ -35,7 +21,7 @@ public class RecipeDetailsModel {
         preparedStatement.setString(3, createPanel.getDescription());
         JSONArray ingredientsArray = collectIngredientsData(createPanel.getIngredientPanel());
         preparedStatement.setString(4, ingredientsArray.toString());
-        JSONArray instructionsArray = collectIngredientsData(createPanel.getInstructionPanel());
+        JSONArray instructionsArray = collectInstructionsData(createPanel.getInstructionPanel());
         preparedStatement.setString(5, instructionsArray.toString());
         preparedStatement.setInt(6, createPanel.getPrepTime());
         preparedStatement.setInt(7, createPanel.getCookTime());
@@ -52,6 +38,20 @@ public class RecipeDetailsModel {
         return generatedKeys.getInt(1);
     }
 
+    public static RecipeDetail getRecipeDetailByRecipeID(int recipeID) throws SQLException{
+        Connection DBConn = DatabaseConnection.getInstance();
+        String selectUserQuery = "SELECT * FROM recipeDetail WHERE recipeID = ?";
+        PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery);
+        preparedStatement.setInt(1, recipeID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        RecipeDetail recipeDetail = null;
+        while (resultSet.next()) {
+            recipeDetail = new RecipeDetail(resultSet);
+        }
+        resultSet.close();
+        preparedStatement.close();
+        return recipeDetail;
+    }
 
     // Inside your RecipeCreationView class
     private static JSONArray collectIngredientsData(JPanel ingredientPanel) {
@@ -80,7 +80,7 @@ public class RecipeDetailsModel {
         }
         return ingredientsArray;
     }
-    private JSONArray collectInstructionsData(JPanel instructionPanel) {
+    private static JSONArray collectInstructionsData(JPanel instructionPanel) {
         JSONArray instructionsArray = new JSONArray();
 
         Component[] components = instructionPanel.getComponents();

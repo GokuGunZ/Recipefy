@@ -7,6 +7,7 @@ import Utility.DatabaseConnection;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -52,7 +53,7 @@ public class UserModel implements UpdateableModel{
     String email;
     String Password;
     //Enumeration UserType;
-    RecipeModels[] RecipeList;
+    RecipeModel[] RecipeList;
     public UserModel(MainFrameController mfc){
         this.mfc = mfc;
     }
@@ -157,6 +158,22 @@ public class UserModel implements UpdateableModel{
         } else {
             JOptionPane.showMessageDialog(null, "La Password inserita non è corretta!");
         }
+    }
+    public static List<RecipeModel> retrieveAllRecipes(int userID) throws SQLException {
+        Connection DBConn = DatabaseConnection.getInstance();
+        String selectUserQuery = "SELECT * FROM recipe WHERE UserID = ?";
+        PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery);
+        preparedStatement.setInt(1, userID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<RecipeModel> allRecipe = new ArrayList<>();
+        while(resultSet.next()){
+            allRecipe.add(new RecipeModel(resultSet.getInt(1),
+                                            resultSet.getInt(2),
+                                            resultSet.getString(3),
+                                            resultSet.getString(6),
+                                            resultSet.getInt(4)));
+        }
+        return allRecipe;
     }
 }
 

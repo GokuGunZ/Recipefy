@@ -19,5 +19,5 @@ public class Restaurant {
     String Nome;
     String Indirizzo;
     String Orario;
-    RecipeModels[] Menu;
+    RecipeModel[] Menu;
 }
