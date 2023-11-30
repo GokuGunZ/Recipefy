@@ -153,7 +153,7 @@ public class UserModel implements UpdateableModel{
             preparedStatement.setString(2, (String) attributes.get(4));
             preparedStatement.setString(3, (String) attributes.get(5));
             preparedStatement.setInt(4, user.getUserID());
-            int insertedRows = preparedStatement.executeUpdate();
+            int updatedRows = preparedStatement.executeUpdate();
         } else {
             JOptionPane.showMessageDialog(null, "La Password inserita non è corretta!");
         }

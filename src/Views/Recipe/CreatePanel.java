@@ -2,7 +2,6 @@ package Views.Recipe;
 
 import Controllers.MainFrameController;
 import Controllers.RecipeController;
-import Tests.RecipeCreationView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class CreatePanel extends JPanel {
-    private MainFrameController mfc;
+    public MainFrameController mfc;
     private JTextField titleField;
     private JTextField descriptionField;
     private JPanel ingredientPanel;
@@ -21,15 +20,11 @@ public class CreatePanel extends JPanel {
     private JTextField prepTime;
     private JTextField cookTime;
     private JComboBox<String> difficultyLvl;
-    private JComboBox<String> cousineSelector;
+    private JComboBox<String> cuisineSelector;
     private JList nutritionalList;
     private JTextField caloricInfo;
-    public CreatePanel(){
-        //this.mfc = mfc;
-        JFrame jf = new JFrame();
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.setSize(new Dimension(500,500));
-
+    public CreatePanel(MainFrameController mfc){
+        this.mfc = mfc;
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         titlePanel.add(new JLabel("Title"));
         titleField = new JTextField(20);
@@ -74,11 +69,11 @@ public class CreatePanel extends JPanel {
 
         JPanel timePanel = new JPanel();
         JPanel prepPanel = new JPanel();
-        prepPanel.add(new JLabel("Preparation Time:"));
+        prepPanel.add(new JLabel("Preparation Time (in minute):"));
         prepTime = new JTextField(3);
         prepPanel.add(prepTime);
         JPanel cookPanel = new JPanel();
-        cookPanel.add(new JLabel("Cooking Time:"));
+        cookPanel.add(new JLabel("Cooking Time (in minute):"));
         cookTime = new JTextField(3);
         cookPanel.add(cookTime);
         timePanel.add(prepPanel);
@@ -96,8 +91,8 @@ public class CreatePanel extends JPanel {
         JPanel cousinePanel = new JPanel();
         cousinePanel.add(new JLabel("Select Cousine Type"));
         String[] cousineTypes = { "Italian Cuisine", "French Cuisine", "Mexican Cuisine", "Chinese Cuisine", "Indian Cuisine", "Japanese Cuisine", "Thai Cuisine", "Mediterranean Cuisine", "Middle Eastern Cuisine"};
-        cousineSelector = new JComboBox<>(cousineTypes);
-        cousinePanel.add(cousineSelector);
+        cuisineSelector = new JComboBox<>(cousineTypes);
+        cousinePanel.add(cuisineSelector);
         tagPanel.add(cousinePanel);
         JPanel nutritionalPanel = new JPanel();
         nutritionalPanel.add(new JLabel("Select the Nutritional Attributes"));
@@ -129,11 +124,6 @@ public class CreatePanel extends JPanel {
         });
         this.add(createButton);
 
-
-
-
-        jf.add(this);
-        jf.setVisible(true);
     }
 
     private void addIngredientFields() {
@@ -208,9 +198,14 @@ public class CreatePanel extends JPanel {
     }
 
     public String getTitle() {return titleField.getText();}
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            new CreatePanel();
-        });
-    }
+    public String getDescription() {return descriptionField.getText();}
+    public JPanel getIngredientPanel() {return ingredientPanel;}
+    public JPanel getInstructionPanel() {return instructionPanel;}
+    public int getPrepTime() {return Integer.parseInt(prepTime.getText());}
+    public int getCookTime() {return Integer.parseInt(cookTime.getText());}
+    public String getDifficulty() {return String.valueOf(difficultyLvl.getSelectedItem());}
+    public String getCuisine() {return String.valueOf(cuisineSelector.getSelectedItem());}
+    public String getCaloricInfo() {return caloricInfo.getText();}
+    public JList<String> getNutritionalList() {return nutritionalList;}
+
 }

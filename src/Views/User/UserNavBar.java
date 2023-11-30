@@ -1,8 +1,6 @@
 package Views.User;
 
-import Beans.User;
 import Controllers.MainFrameController;
-import Views.MainFrame.MainPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +31,7 @@ public class UserNavBar extends JPanel {
         allPanel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userPanel.updateCenterPanel(new AllPanel());
+                userPanel.updateCenterPanel(new AllPanel(userPanel, mfc));
             }
         });
         catPanel.addActionListener(new ActionListener() {

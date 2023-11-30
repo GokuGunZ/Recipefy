@@ -1,6 +1,5 @@
 package Views.User;
 
-import Beans.User;
 import Controllers.MainFrameController;
 import Views.MainFrame.MainPanel;
 
@@ -16,7 +15,7 @@ public class UserPanel extends JPanel implements MainPanel{
         label.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(label, BorderLayout.CENTER);
         this.add(new UserNavBar(this, mfc), BorderLayout.NORTH);
-        centerPanel = new AllPanel();
+        centerPanel = new AllPanel(this, mfc);
         this.add(centerPanel, BorderLayout.CENTER);
     }
 
