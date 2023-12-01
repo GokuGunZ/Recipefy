@@ -30,7 +30,8 @@ public class AllPanel extends JPanel {
         this.add(buttonPanel, BorderLayout.NORTH);
 
         CardGridShower recipePanel = new CardGridShower(userPanel);
-        UserController userController = new UserController(mfc.getUser().getUserID(), recipePanel);
+        UserController userController = new UserController(mfc.getUser().getUserID());
+        userController.setRecipePanel(recipePanel);
         userController.loadRecipesForUser();
 
         this.add(recipePanel, BorderLayout.CENTER);

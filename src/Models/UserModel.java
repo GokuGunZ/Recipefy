@@ -1,5 +1,6 @@
 package Models;
 
+import Beans.Recipe;
 import Beans.User;
 import Controllers.MainFrameController;
 import Utility.DataValidator;
@@ -159,22 +160,7 @@ public class UserModel implements UpdateableModel{
             JOptionPane.showMessageDialog(null, "La Password inserita non è corretta!");
         }
     }
-    public static List<RecipeModel> retrieveAllRecipes(int userID) throws SQLException {
-        Connection DBConn = DatabaseConnection.getInstance();
-        String selectUserQuery = "SELECT * FROM recipe WHERE UserID = ?";
-        PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery);
-        preparedStatement.setInt(1, userID);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        List<RecipeModel> allRecipe = new ArrayList<>();
-        while(resultSet.next()){
-            allRecipe.add(new RecipeModel(resultSet.getInt(1),
-                                            resultSet.getInt(2),
-                                            resultSet.getString(3),
-                                            resultSet.getString(6),
-                                            resultSet.getInt(4)));
-        }
-        return allRecipe;
-    }
+
 }
 
 class Chef extends UserModel {

@@ -16,7 +16,7 @@ public class UserPanel extends JPanel implements MainPanel{
         JLabel label = new JLabel("User Panel Content");
         label.setHorizontalAlignment(SwingConstants.CENTER);
         this.add(label, BorderLayout.CENTER);
-        this.add(new UserNavBar(this, mfc), BorderLayout.NORTH);
+        this.add(new UserNavBar(mfc), BorderLayout.NORTH);
         centerPanel = new AllPanel(this, mfc);
         this.add(centerPanel, BorderLayout.CENTER);
     }

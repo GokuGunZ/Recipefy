@@ -61,18 +61,14 @@ public class RecipeDetailsModel {
             if (component instanceof JPanel) {
                 JSONObject ingredientObject = new JSONObject();
                 JPanel ingredientComponent = (JPanel) component;
-
+                String fieldLabel = "";
                 for (Component field : ingredientComponent.getComponents()) {
+                    if (field instanceof JLabel){
+                        fieldLabel = ((JLabel) field).getText();
+                    }
                     if (field instanceof JTextField) {
                         JTextField textField = (JTextField) field;
-                        String text = textField.getText();
-                        ingredientObject.put("qty", text);
-                        textField = (JTextField) field;
-                        text = textField.getText();
-                        ingredientObject.put("unit", text);
-                        textField = (JTextField) field;
-                        text = textField.getText();
-                        ingredientObject.put("entity", text);
+                        ingredientObject.put(fieldLabel, textField.getText());
                     }
                 }
                 ingredientsArray.put(ingredientObject);
@@ -98,5 +94,13 @@ public class RecipeDetailsModel {
             }
         }
         return instructionsArray;
+    }
+
+    public static class RecipeIngredients{
+        public RecipeIngredients(String jsonIngredients){
+            JSONArray ingredientsArray = new JSONArray(jsonIngredients);
+        }
+
+
     }
 }

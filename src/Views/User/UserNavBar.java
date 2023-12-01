@@ -1,6 +1,7 @@
 package Views.User;
 
 import Controllers.MainFrameController;
+import Controllers.UserController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 public class UserNavBar extends JPanel {
     MainFrameController mfc;
 
-    public UserNavBar(UserPanel userPanel, MainFrameController mfc){
+    public UserNavBar(MainFrameController mfc){
         this.mfc = mfc;
         this.setLayout(new BorderLayout());
         JPanel userInfoPanel = new JPanel();
@@ -20,20 +21,22 @@ public class UserNavBar extends JPanel {
         UserInfoBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userPanel.updateCenterPanel(new ReadPanel(userPanel, mfc));
+                UserPanel userPanel = (UserPanel) mfc.getMainPanel();
+                userPanel.updateCenterPanel(new ReadPanel(mfc));
             }
         });
         userInfoPanel.add(UserInfoBtn);
         this.add(UserInfoBtn, BorderLayout.WEST);
 
         JPanel navPanel = new JPanel(new BorderLayout());
-        JButton allPanel = new JButton("All");
-        JButton catPanel = new JButton("Category");
-        JButton dietPanel = new JButton("Diet");
-        allPanel.addActionListener(new ActionListener() {
+        JButton allBtn = new JButton("All");
+        JButton catBtn = new JButton("Category");
+        JButton dietBtn = new JButton("Diet");
+        allBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    UserPanel userPanel = (UserPanel) mfc.getMainPanel();
                     userPanel.updateCenterPanel(new AllPanel(userPanel, mfc));
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
@@ -42,21 +45,28 @@ public class UserNavBar extends JPanel {
                 }
             }
         });
-        catPanel.addActionListener(new ActionListener() {
+        catBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                userPanel.updateCenterPanel(new CategoryPanel());
+                UserController userController = mfc.getUserController();
+                userController.setMainFrameController(mfc);
+                try {
+                    userController.renderCategoryPage();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
-        dietPanel.addActionListener(new ActionListener() {
+        dietBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                UserPanel userPanel = (UserPanel) mfc.getMainPanel();
                 userPanel.updateCenterPanel(new DietPanel());
             }
         });
-        navPanel.add(allPanel, BorderLayout.WEST);
-        navPanel.add(catPanel, BorderLayout.CENTER);
-        navPanel.add(dietPanel, BorderLayout.EAST);
+        navPanel.add(allBtn, BorderLayout.WEST);
+        navPanel.add(catBtn, BorderLayout.CENTER);
+        navPanel.add(dietBtn, BorderLayout.EAST);
         this.add(navPanel, BorderLayout.CENTER);
     }
 }

@@ -16,11 +16,11 @@ public class MainFrame extends JFrame{
         super("Recipefy");
         mfc = new MainFrameController(this);
 
-        Toolkit kit = Toolkit.getDefaultToolkit(); //Istanzio il toolkit
-        Dimension screenSize = kit.getScreenSize(); //Prendo la dimensione dello schermo
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        this.setSize(screenWidth*84/100, screenHeight*84/100); //Definisce le dimensioni
+        this.setSize(screenWidth*84/100, screenHeight*84/100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -42,6 +42,7 @@ public class MainFrame extends JFrame{
 
     public void renderAuthenticatedUI(User user){
         this.mfc.setAuthedUser(user);
+        this.mfc.setUserController(user.getUserID());
         this.getContentPane().removeAll();
 
         mainPanel = new JPanel();

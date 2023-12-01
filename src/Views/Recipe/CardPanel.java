@@ -16,11 +16,11 @@ public class CardPanel extends JPanel {
     private int recipeID;
     private String title;
     private Image img;
-    private UserPanel userPanel;
+    private JPanel recipePanel;
 
-    public CardPanel(int recipeID, String title, String thumbUrl, UserPanel userPanel) throws IOException {
+    public CardPanel(int recipeID, String title, String thumbUrl, JPanel panel) throws IOException {
         this.recipeID = recipeID;
-        this.userPanel = userPanel;
+        this.recipePanel = panel;
         this.title = title;
         this.setLayout(new BorderLayout());
         this.setSize(300, 200);
@@ -56,7 +56,7 @@ public class CardPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             CardPanel panel = (CardPanel) e.getSource();
             try {
-                RecipeController.showRecipe(recipeID, userPanel);
+                RecipeController.showRecipe(recipeID, (UserPanel) recipePanel);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Problem occurred during the loading of the Recipe" + panel.title);
                 throw new RuntimeException(ex);

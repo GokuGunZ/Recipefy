@@ -1,4 +1,4 @@
-package UIComponents;
+package Views.UIComponents;
 
 public class ModelDialog {
 }

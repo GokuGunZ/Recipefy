@@ -12,12 +12,11 @@ public class Recipe {
     String thumbImagePath;
     RecipeDetail recipeDetail;
 
-    public Recipe(int recipeID, int userID, String title, int recipeDetailID, int originalRecipeID, String thumbImagePath){
+    public Recipe(int recipeID, int userID, String title, int recipeDetailID, String thumbImagePath){
         this.recipeID = recipeID;
         this.userID = userID;
         this.title = title;
         this.recipeDetailID = recipeDetailID;
-        this.originalRecipeID = originalRecipeID;
         this.thumbImagePath = thumbImagePath;
     }
 
@@ -33,4 +32,15 @@ public class Recipe {
         this.recipeDetail = recipeDetail;
     }
     public String getTitle() {return this.title;}
+    public int getUserID() {return this.userID;}
+    public int getRecipeID() { return this.recipeID;}
+
+    public int getRecipeDetailID() {return this.recipeDetailID;}
+
+    public int getOriginalRecipeID() {return this.originalRecipeID;}
+
+    public String getThumbImagePath() {return this.thumbImagePath;}
+
+    public RecipeDetail getRecipeDetail() {return this.recipeDetail;}
+
 }

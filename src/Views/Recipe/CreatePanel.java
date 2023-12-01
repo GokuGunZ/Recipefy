@@ -2,6 +2,7 @@ package Views.Recipe;
 
 import Controllers.MainFrameController;
 import Controllers.RecipeController;
+import Views.UIComponents.FormPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,17 +26,14 @@ public class CreatePanel extends JPanel {
     private JTextField caloricInfo;
     public CreatePanel(MainFrameController mfc){
         this.mfc = mfc;
-        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        titlePanel.add(new JLabel("Title"));
-        titleField = new JTextField(20);
-        titlePanel.add(titleField);
-        this.add(titlePanel);
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
-        JPanel descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        descriptionPanel.add(new JLabel("Description"));
+        titleField = new JTextField(20);
+        this.add(new FormPanel("Recipe title: ", titleField));
+
+
         descriptionField = new JTextField(20);
-        descriptionPanel.add(descriptionField);
-        this.add(descriptionPanel);
+        this.add(new FormPanel("Recipe Description: ", descriptionField));
 
         JPanel ingredientPanWBtn = new JPanel();
         ingredientPanel = new JPanel();
@@ -68,16 +66,10 @@ public class CreatePanel extends JPanel {
         this.add(instructionPanWBtn);
 
         JPanel timePanel = new JPanel();
-        JPanel prepPanel = new JPanel();
-        prepPanel.add(new JLabel("Preparation Time (in minute):"));
         prepTime = new JTextField(3);
-        prepPanel.add(prepTime);
-        JPanel cookPanel = new JPanel();
-        cookPanel.add(new JLabel("Cooking Time (in minute):"));
         cookTime = new JTextField(3);
-        cookPanel.add(cookTime);
-        timePanel.add(prepPanel);
-        timePanel.add(cookPanel);
+        timePanel.add(new FormPanel("Preparation Time (in minute):", prepTime));
+        timePanel.add(new FormPanel("Cooking Time (in minute):", cookTime));
         this.add(timePanel);
 
         JPanel difficultyPanel = new JPanel();
@@ -103,11 +95,8 @@ public class CreatePanel extends JPanel {
         tagPanel.add(nutritionalPanel);
         this.add(tagPanel);
 
-        JPanel caloricInfoPanel = new JPanel();
-        caloricInfoPanel.add(new JLabel("Insert caloric info"));
         caloricInfo = new JTextField(20);
-        caloricInfoPanel.add(caloricInfo);
-        this.add(caloricInfoPanel);
+        this.add(new FormPanel("Insert caloric info: ", caloricInfo));
 
         JButton createButton = new JButton("Create Recipe");
         CreatePanel cp = this;
@@ -134,12 +123,9 @@ public class CreatePanel extends JPanel {
         JTextField unitField = new JTextField(10);
         JTextField entityField = new JTextField(20);
 
-        newIngredientPanel.add(new JLabel("Qty:"));
-        newIngredientPanel.add(qtyField);
-        newIngredientPanel.add(new JLabel("Unit:"));
-        newIngredientPanel.add(unitField);
-        newIngredientPanel.add(new JLabel("Entity:"));
-        newIngredientPanel.add(entityField);
+        newIngredientPanel.add(new FormPanel("Qty:", qtyField));
+        newIngredientPanel.add(new FormPanel("Unit:", unitField));
+        newIngredientPanel.add(new FormPanel("Entity:", entityField));
 
         JButton removeButton = new JButton("-");
         removeButton.addActionListener(new ActionListener() {
@@ -162,12 +148,10 @@ public class CreatePanel extends JPanel {
         JPanel newInstructionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         newInstructionPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-        JTextArea instructionTextArea = new JTextArea(3, 40);
+        JTextField instructionTextField = new JTextField(40);
 
         int currentStepCount = instructionPanel.getComponentCount() + 1;
-        newInstructionPanel.add(new JLabel("Step " + currentStepCount + ":"));
-        newInstructionPanel.add(instructionTextArea);
-
+        newInstructionPanel.add(new FormPanel("Step " + currentStepCount + ":", instructionTextField));
         JButton removeButton = new JButton("-");
         removeButton.addActionListener(new ActionListener() {
             @Override
@@ -189,11 +173,10 @@ public class CreatePanel extends JPanel {
 
     private void renumberSteps(int startIndex) {
         Component[] components = instructionPanel.getComponents();
-
         for (int i = startIndex; i < components.length; i++) {
             JPanel panel = (JPanel) components[i];
-            JLabel label = (JLabel) panel.getComponent(0);
-            label.setText("Step " + (i + 1) + ":");
+            FormPanel fPanel = (FormPanel) panel.getComponent(0);
+            fPanel.setText("Step " + (i + 1) + ":");
         }
     }
 
