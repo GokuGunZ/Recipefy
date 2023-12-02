@@ -8,11 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-public class UpdateUserController {
+public class UpdateController {
     MainFrameController mfc;
     UpdateableView updView;
     UpdateableModel updModel;
-    public UpdateUserController(MainFrameController mfc, UpdateableView updView, UpdateableModel updModel){
+    public UpdateController(MainFrameController mfc, UpdateableView updView, UpdateableModel updModel){
         this.mfc = mfc;
         this.updView = updView;
         updView.setUpdateButtonListener(new UpdateButtonListener());

@@ -19,6 +19,17 @@ public class ReadPanel extends JPanel {
         this.setLayout(new BorderLayout());
         JPanel updatePanel = new JPanel(new BorderLayout());
         JButton updateBtn = new JButton("Update your information");
+
+
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new BoxLayout(infoPanel,BoxLayout.Y_AXIS));
+        infoPanel.add(new AttributeShower("Nome", user.getName(), 25));
+        infoPanel.add(new AttributeShower("Bio", user.getBio(), 20));
+        infoPanel.add(new AttributeShower("Preferenze", "To be implemented", 20));
+        infoPanel.add(new AttributeShower("Allergeni", "To be implemented", 20));
+        infoPanel.add(new AttributeShower("eMail", user.getEmail(), 20));
+        infoPanel.setBorder(new EmptyBorder(5,150,30,20));
+
         updateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,14 +41,6 @@ public class ReadPanel extends JPanel {
         updatePanel.add(updateBtn, BorderLayout.EAST);
         this.add(updatePanel, BorderLayout.NORTH);
 
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel,BoxLayout.Y_AXIS));
-        infoPanel.add(new AttributeShower("Nome", user.getName(), 25));
-        infoPanel.add(new AttributeShower("Bio", user.getBio(), 20));
-        infoPanel.add(new AttributeShower("Preferenze", "To be implemented", 20));
-        infoPanel.add(new AttributeShower("Allergeni", "To be implemented", 20));
-        infoPanel.add(new AttributeShower("eMail", user.getEmail(), 20));
-        infoPanel.setBorder(new EmptyBorder(5,150,30,20));
         this.add(infoPanel, BorderLayout.CENTER);
 
     }

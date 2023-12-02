@@ -29,7 +29,7 @@ public class AllPanel extends JPanel {
         buttonPanel.add(newRecipe, BorderLayout. EAST);
         this.add(buttonPanel, BorderLayout.NORTH);
 
-        CardGridShower recipePanel = new CardGridShower(userPanel);
+        CardGridShower recipePanel = new CardGridShower(mfc, userPanel);
         UserController userController = new UserController(mfc.getUser().getUserID());
         userController.setRecipePanel(recipePanel);
         userController.loadRecipesForUser();

@@ -2,24 +2,32 @@ package Views.Recipe;
 
 import Beans.Recipe;
 import Beans.RecipeDetail;
+import Controllers.MainFrameController;
 import Models.RecipeDetailsModel;
 import Views.UIComponents.AttributeShower;
+import Views.User.UserPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ReadPanel extends JPanel {
+    private Recipe recipe;
+    private MainFrameController mfc;
 
-    public ReadPanel(Recipe recipe){
+    public ReadPanel(MainFrameController mfc, Recipe recipe){
+        this.recipe = recipe;
+        this.mfc = mfc;
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         setBackground(new Color(102, 227, 102,55));
 
-
         JLabel titleLabel = new JLabel(recipe.getTitle());
-        titleLabel.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 24));
+        titleLabel.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 30));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel);
+
         RecipeDetail recipeDetail = recipe.getRecipeDetail();
         RecipeDetailsModel.RecipeIngredients lol = new RecipeDetailsModel.RecipeIngredients(recipeDetail.getIngredients());
         add(new AttributeShower("Description", recipeDetail.getDescription(),20));
@@ -32,5 +40,18 @@ public class ReadPanel extends JPanel {
         add(new AttributeShower("Nutritional Info", recipeDetail.getNutritionalAttributes(), 22));
         add(new AttributeShower("Caloric Info", recipeDetail.getCaloricInfo(), 18));
         setBorder(new EmptyBorder(5,120,30,120));
+
+        JButton updateBtn = new JButton("Update recipe");
+        JPanel updatePanel = new JPanel();
+        updateBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                UserPanel userPanel = (UserPanel) mfc.getMainPanel();
+                userPanel.updateCenterPanel(new UpdatePanel(recipe, mfc));
+            }
+        });
+        updatePanel.add(updateBtn);
+        add(updatePanel);
     }
 }

@@ -16,10 +16,10 @@ public class CategoryController {
         new _Manage(categories);
     }
 
-    public static void renderRecipeCategory(int tagID, JPanel recipePanel) throws SQLException, IOException {
+    public static void renderRecipeCategory(MainFrameController mfc, int tagID, JPanel recipePanel) throws SQLException, IOException {
         List<Integer> recipeIDsList = RecipeModel.getRecipeIDsByTag(tagID);
         List<Recipe> recipeList = RecipeModel.getRecipeByList(recipeIDsList);
-        CardGridShower cgs = new CardGridShower(recipePanel);
+        CardGridShower cgs = new CardGridShower(mfc, recipePanel);
         cgs.setAllRecipes(recipeList);
         cgs.displayRecipes();
 

@@ -1,5 +1,6 @@
 package Views.Recipe;
 
+import Controllers.MainFrameController;
 import Controllers.RecipeController;
 import Utility.DataCollector;
 import Views.User.UserPanel;
@@ -17,8 +18,10 @@ public class CardPanel extends JPanel {
     private String title;
     private Image img;
     private JPanel recipePanel;
+    private MainFrameController mfc;
 
-    public CardPanel(int recipeID, String title, String thumbUrl, JPanel panel) throws IOException {
+    public CardPanel(MainFrameController mfc, int recipeID, String title, String thumbUrl, JPanel panel) throws IOException {
+        this.mfc = mfc;
         this.recipeID = recipeID;
         this.recipePanel = panel;
         this.title = title;
@@ -56,7 +59,7 @@ public class CardPanel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             CardPanel panel = (CardPanel) e.getSource();
             try {
-                RecipeController.showRecipe(recipeID, (UserPanel) recipePanel);
+                RecipeController.showRecipe(mfc, recipeID, (UserPanel) recipePanel);
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Problem occurred during the loading of the Recipe" + panel.title);
                 throw new RuntimeException(ex);

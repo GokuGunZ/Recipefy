@@ -2,8 +2,10 @@ package Models;
 
 
 import Beans.Recipe;
+import Controllers.MainFrameController;
 import Utility.DatabaseConnection;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +24,16 @@ import java.util.List;
  * @Method ReviewID[] GetReviewList(int Recipe ID)
  *
  */
-public class RecipeModel {
+public class RecipeModel implements UpdateableModel{
     int recipeID;
     int userID;
     String title;
     String thumbUrl;
     int recipeDetailsID;
+
+    public RecipeModel(MainFrameController mfc) {
+
+    }
 
     public static int createRecipe(int userID, String title) throws SQLException {
         Connection DBConn = DatabaseConnection.getInstance();
@@ -53,6 +59,7 @@ public class RecipeModel {
         int insertedRows = preparedStatement.executeUpdate();
         return true;
     }
+
     public static Recipe getRecipeByID(int recipeID) throws SQLException {
         Connection DBConn = DatabaseConnection.getInstance();
         String selectUserQuery = "SELECT * FROM recipe WHERE recipeID = ?";
@@ -67,6 +74,7 @@ public class RecipeModel {
         preparedStatement.close();
         return recipe;
     }
+
     public static List<Recipe> retrieveAllRecipes(int userID) throws SQLException {
         Connection DBConn = DatabaseConnection.getInstance();
         String selectUserQuery = "SELECT * FROM recipe WHERE UserID = ?";
@@ -122,4 +130,40 @@ public class RecipeModel {
     public String getTitle() {return title;};
     public String getThumbUrl() {return thumbUrl;};
     public int getRecipeDetailsID() {return recipeDetailsID;};
+
+    @Override
+    public void updateModel(List<Object> attributes) throws SQLException {
+        int recipeID = (Integer)attributes.get(0);
+        Connection DBConn = DatabaseConnection.getInstance();
+        String updateRecipeQuery = "UPDATE recipe SET title = ? where recipeID = ?";
+        PreparedStatement preparedStatement = DBConn.prepareStatement(updateRecipeQuery);
+        preparedStatement.setInt(2, recipeID);
+        preparedStatement.setString(1, (String) attributes.get(1));
+        int updatedRows = preparedStatement.executeUpdate();
+        if (updatedRows != 1){
+            JOptionPane.showMessageDialog(null, "Error during the update");
+            preparedStatement.close();
+            return;
+        }
+        String updateRecipeDetailQuery = "UPDATE recipeDetail SET Title = ?, Description = ?, Ingredients = ?, Instruction = ?, PreparationTime = ?, CookingTime = ?, DifficultyLevel = ?, CuisineType = ?, NutritionalAttribute = ?, CaloricInfo = ? where recipeID = ?";
+        preparedStatement = DBConn.prepareStatement(updateRecipeDetailQuery);
+        preparedStatement.setInt(11, recipeID);
+        preparedStatement.setString(1, (String) attributes.get(1));
+        preparedStatement.setString(2, (String) attributes.get(2));
+        preparedStatement.setString(3, (String) attributes.get(3));
+        preparedStatement.setString(4, (String) attributes.get(4));
+        preparedStatement.setInt(5, Integer.parseInt((String) attributes.get(5)));
+        preparedStatement.setInt(6, Integer.parseInt((String) attributes.get(6)));
+        preparedStatement.setString(7, (String) attributes.get(7));
+        preparedStatement.setString(8, (String) attributes.get(8));
+        preparedStatement.setString(9, (String) attributes.get(9));
+        preparedStatement.setString(10, (String) attributes.get(10));
+        updatedRows = preparedStatement.executeUpdate();
+        preparedStatement.close();
+        if (updatedRows != 0){
+            JOptionPane.showMessageDialog(null, "Information updated correctly!");
+        } else {
+            JOptionPane.showMessageDialog(null, "Error during the update");
+        }
+    }
 }

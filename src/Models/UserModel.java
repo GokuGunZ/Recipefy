@@ -1,6 +1,5 @@
 package Models;
 
-import Beans.Recipe;
 import Beans.User;
 import Controllers.MainFrameController;
 import Utility.DataValidator;
@@ -8,7 +7,6 @@ import Utility.DatabaseConnection;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -93,6 +91,8 @@ public class UserModel implements UpdateableModel{
         ResultSet resultSet = preparedStatement.executeQuery();
         boolean isValid = false;
         isValid = resultSet.next();
+        resultSet.close();
+        preparedStatement.close();
         return !isValid;
     }
 
@@ -104,6 +104,8 @@ public class UserModel implements UpdateableModel{
         ResultSet resultSet = preparedStatement.executeQuery();
         boolean isValid = false;
         isValid = resultSet.next();
+        resultSet.close();
+        preparedStatement.close();
         return !isValid;
     }
 
@@ -117,12 +119,14 @@ public class UserModel implements UpdateableModel{
         preparedStatement.setInt(4, 1);
         int insertedRows = preparedStatement.executeUpdate();
         if (insertedRows == 0) {
+            preparedStatement.close();
             throw new RuntimeException("Creating user failed, no rows affected.");
         }
         ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
         generatedKeys.next();
         User authedUser = null;
         authedUser = new User(generatedKeys.getInt(1), username, email);
+        preparedStatement.close();
         return authedUser;
     }
 
@@ -136,29 +140,39 @@ public class UserModel implements UpdateableModel{
         while(resultSet.next()){
             psw = resultSet.getString("Password");
         }
+        resultSet.close();
+        preparedStatement.close();
         return psw.equals(password);
     }
     @Override
     public void updateModel(List<Object> attributes) throws SQLException {
         User user = mfc.getUser();
+        int updatedRows = 0;
         String newPass = (String) attributes.get(5);
         if (!DataValidator.isStrongPassword(newPass)){
-            JOptionPane.showMessageDialog(null, "La nuova password deve essere lunga almeno 8 caratteri e contenere un numero!");
+            JOptionPane.showMessageDialog(null, "New password must be 8 character long and contain at least one number!");
             return;
         }
         String psw = (String) attributes.get(6);
         if (checkPassword(user.getUserID(), psw)){
             Connection DBConn = DatabaseConnection.getInstance();
-            String selectUserQuery = "UPDATE user SET username = ?, email = ?, password = ? where UserID = ?";
-            PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery, Statement.RETURN_GENERATED_KEYS);
+            String updateUserQuery = "UPDATE user SET username = ?, email = ?, password = ? where UserID = ?";
+            PreparedStatement preparedStatement = DBConn.prepareStatement(updateUserQuery);
             preparedStatement.setString(1, (String) attributes.get(0));
             preparedStatement.setString(2, (String) attributes.get(4));
             preparedStatement.setString(3, (String) attributes.get(5));
             preparedStatement.setInt(4, user.getUserID());
-            int updatedRows = preparedStatement.executeUpdate();
+            updatedRows = preparedStatement.executeUpdate();
+            preparedStatement.close();
+            if (updatedRows != 0){
+                JOptionPane.showMessageDialog(null, "Information updated correctly!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error during the update");
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "La Password inserita non è corretta!");
+            JOptionPane.showMessageDialog(null, "Inserted password is incorrect!");
         }
+
     }
 
 }

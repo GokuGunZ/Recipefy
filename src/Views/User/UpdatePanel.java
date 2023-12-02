@@ -2,12 +2,13 @@ package Views.User;
 
 import Beans.User;
 import Controllers.MainFrameController;
-import Controllers.UpdateUserController;
+import Controllers.UpdateController;
 import Models.UserModel;
+import Views.UIComponents.UpdateFormPanel;
 import Views.UpdateableView;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,32 +27,26 @@ public class UpdatePanel extends JPanel implements UpdateableView {
     private ActionListener updateButtonListener;
     public UpdatePanel(User user, MainFrameController mfc){
         this.authedUser = user;
-        this.setLayout(new GridLayout(1,2));
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        setBorder(new EmptyBorder(40, 150, 20, 150));
 
-        //Personal Info Panel
-        JPanel personalInfoPanel = new JPanel(new BorderLayout());
-        JPanel personalInfo = new JPanel(new GridLayout(4,2,20,100));
+        //Personal Info Panel;
+        JPanel personalInfo = new JPanel();
+        personalInfo.setLayout(new BoxLayout(personalInfo, BoxLayout.Y_AXIS));
 
-        personalInfo.add(new JLabel("Name"));
-        JTextField newName = new JTextField(20);
-        newName.setText(user.getName());
-        name = newName;
-        personalInfo.add(newName);
+        name = new JTextField(20);
+        personalInfo.add(new UpdateFormPanel("Name: ", name, user.getName()));
 
-        personalInfo.add(new JLabel("Bio"));
         bio = new JTextField(20);
-        bio.setText(user.getBio());
-        personalInfo.add(bio);
+        personalInfo.add(new UpdateFormPanel("Bio: ", bio, user.getBio()));
 
-        personalInfo.add(new JLabel("Favourite Cousine"));
         favCous = new JTextField(20);
-        personalInfo.add(favCous);
+        personalInfo.add(new UpdateFormPanel("Favourite Cuisine: ", favCous, "To be implemented"));
 
-        personalInfo.add(new JLabel("Allergens"));
         allerg = new JTextField(20);
-        personalInfo.add(allerg);
+        personalInfo.add(new UpdateFormPanel("Allergens: ", allerg, "To be implemented"));
 
-        personalInfoPanel.add(personalInfo, BorderLayout.CENTER);
+
 
         updateButton = new JButton("Save Updated Information");
         updateButton.addActionListener(new ActionListener() {
@@ -67,42 +62,36 @@ public class UpdatePanel extends JPanel implements UpdateableView {
 
 
         //Authentication Info Panel
-        JPanel authInfoPanel = new JPanel(new BorderLayout());
-        JPanel authInfoInnerPanel = new JPanel(new GridLayout(1,2));
+        JPanel authInfoPanel = new JPanel();
+        authInfoPanel.setLayout(new BoxLayout(authInfoPanel, BoxLayout.Y_AXIS));
 
-        JPanel authInfo = new JPanel(new GridLayout(2,1));
 
-        JPanel newAuthInfo = new JPanel(new GridLayout(4,1));
 
-        newAuthInfo.add(new JLabel("eMail"));
         email = new JTextField(20);
-        email.setText(user.getEmail());
+        authInfoPanel.add(new UpdateFormPanel("eMail: ", email, user.getEmail()));
 
-        newAuthInfo.add(email);
-
-        newAuthInfo.add(new JLabel("Password"));
+        JPanel passPanel = new JPanel();
+        passPanel.add(new JLabel("Password"));
         password = new JPasswordField(20);
-        newAuthInfo.add(password);
+        passPanel.add(password);
 
-        JPanel confirmInfo = new JPanel(new GridLayout(4,1));
+        JPanel confirmInfo = new JPanel();
         confirmInfo.add(new JLabel("Old Password for Confirmation"));
         oldPsw = new JPasswordField(20);
         confirmInfo.add(oldPsw);
 
-        authInfo.add(newAuthInfo);
-        authInfo.add(confirmInfo);
+        authInfoPanel.add(passPanel);
+        authInfoPanel.add(confirmInfo);
 
-        JPanel saveAuthPanel = new JPanel(new BorderLayout());
-        UpdateUserController updateController = new UpdateUserController(mfc, this, new UserModel(mfc));
-        authInfoPanel.add(updateButton, BorderLayout.SOUTH);
-        this.add(personalInfoPanel, BorderLayout.WEST);
+        JPanel saveAuthPanel = new JPanel();
+        UpdateController updateController = new UpdateController(mfc, this, new UserModel(mfc));
+        this.add(personalInfo);
 
-        authInfo.add(saveAuthPanel, BorderLayout.SOUTH);
-        authInfoInnerPanel.add(authInfo);
-        authInfoInnerPanel.add(confirmInfo);
-        authInfoPanel.add(authInfoInnerPanel);
-        this.add(authInfoPanel, BorderLayout.EAST);
+        authInfoPanel.add(saveAuthPanel);
+        authInfoPanel.add(confirmInfo);
+        this.add(authInfoPanel);
 
+        this.add(updateButton);
     }
 
     @Override

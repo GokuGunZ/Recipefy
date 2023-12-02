@@ -20,10 +20,10 @@ public class RecipeController {
         return true;
     }
 
-    public static void showRecipe(int recipeID, UserPanel userPanel) throws SQLException {
+    public static void showRecipe(MainFrameController mfc, int recipeID, UserPanel userPanel) throws SQLException {
         Recipe recipe = RecipeModel.getRecipeByID(recipeID);
         RecipeDetail recipeDetail = RecipeDetailsModel.getRecipeDetailByRecipeID(recipeID);
         recipe.setRecipeDetail(recipeDetail);
-        userPanel.updateCenterPanel(new ReadPanel(recipe));
+        userPanel.updateCenterPanel(new ReadPanel(mfc, recipe));
     }
 }
