@@ -5,7 +5,6 @@ import Factory.MainPanelFactory;
 import Views.MainFrame.MainFrame;
 import Views.MainFrame.MainPanel;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -21,8 +20,7 @@ public class MainFrameController {
     }
     public void displayModule(MainPanel mainPanel) {
         this.mainPanel = mainPanel;
-        JPanel panel = mainPanel.getPanel();
-        mainFrame.updateMainPanel(panel);
+        mainFrame.updateMainPanel(mainPanel.getPanel());
     }
 
     public void createAndDisplayUserPan() throws IOException, SQLException {

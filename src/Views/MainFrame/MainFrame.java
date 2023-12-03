@@ -37,8 +37,6 @@ public class MainFrame extends JFrame{
     public void updateMainPanel(JPanel panel) {
         mainPanel.removeAll();
         mainPanel.add(panel, BorderLayout.CENTER);
-
-        // Refresh the main panel
         mainPanel.revalidate();
         mainPanel.repaint();
     }

@@ -3,7 +3,7 @@ package Views.Recipe;
 import Beans.Recipe;
 import Beans.RecipeDetail;
 import Controllers.MainFrameController;
-import Models.RecipeDetailsModel;
+import Utility.DataCollector;
 import Views.UIComponents.AttributeShower;
 import Views.User.UserPanel;
 
@@ -23,13 +23,14 @@ public class ReadPanel extends JPanel {
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         setBackground(new Color(102, 227, 102,55));
 
+        add(new imagePanel(DataCollector.loadImage(recipe.getImagePath()).getScaledInstance(600, 400, Image.SCALE_DEFAULT)));
+
+
         JLabel titleLabel = new JLabel(recipe.getTitle());
         titleLabel.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 30));
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel);
 
         RecipeDetail recipeDetail = recipe.getRecipeDetail();
-        RecipeDetailsModel.RecipeIngredients lol = new RecipeDetailsModel.RecipeIngredients(recipeDetail.getIngredients());
         add(new AttributeShower("Description", recipeDetail.getDescription(),20));
         add(new AttributeShower("Ingredients", recipeDetail.getIngredients(), 18));
         add(new AttributeShower("Instructions", recipeDetail.getInstruction(), 22));
@@ -54,4 +55,23 @@ public class ReadPanel extends JPanel {
         updatePanel.add(updateBtn);
         add(updatePanel);
     }
+    class imagePanel extends JPanel{
+        private Image img;
+        public imagePanel(Image image){
+            img = image;
+            this.setSize(600, 400);
+            this.setPreferredSize(new Dimension(600,400));
+            setBackground(new Color(0,0,0,0));
+
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (img != null){
+                g.drawImage(img, 0, 0,this);
+            }
+        }
+    }
+
 }

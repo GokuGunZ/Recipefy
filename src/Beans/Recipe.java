@@ -9,15 +9,15 @@ public class Recipe {
     String title;
     int recipeDetailID;
     int originalRecipeID;
-    String thumbImagePath;
+    String imagePath;
     RecipeDetail recipeDetail;
 
-    public Recipe(int recipeID, int userID, String title, int recipeDetailID, String thumbImagePath){
+    public Recipe(int recipeID, int userID, String title, int recipeDetailID, String imagePath){
         this.recipeID = recipeID;
         this.userID = userID;
         this.title = title;
         this.recipeDetailID = recipeDetailID;
-        this.thumbImagePath = thumbImagePath;
+        this.imagePath = imagePath;
     }
 
     public Recipe(ResultSet resultSet) throws SQLException {
@@ -26,7 +26,7 @@ public class Recipe {
         this.title = resultSet.getString("Title");
         this.recipeDetailID = resultSet.getInt("RecipeDetailID");
         this.originalRecipeID = resultSet.getInt("OriginalRecipeID");
-        this.thumbImagePath = resultSet.getString("ImagePath");
+        this.imagePath = resultSet.getString("ImagePath");
     }
     public void setRecipeDetail(RecipeDetail recipeDetail){
         this.recipeDetail = recipeDetail;
@@ -39,7 +39,7 @@ public class Recipe {
 
     public int getOriginalRecipeID() {return this.originalRecipeID;}
 
-    public String getThumbImagePath() {return this.thumbImagePath;}
+    public String getImagePath() {return this.imagePath;}
 
     public RecipeDetail getRecipeDetail() {return this.recipeDetail;}
 

@@ -5,11 +5,11 @@ import java.awt.*;
 import java.net.URL;
 
 public class DataCollector {
-    public Image loadImage(String path){
+    public static Image loadImage(String path){
         Image image = null;
         URL imageUrl = null;
         try {
-            imageUrl = getClass().getResource(path);
+            imageUrl = DataCollector.class.getResource(path);
         } catch (NullPointerException e){
             System.err.println(e);
             return image;

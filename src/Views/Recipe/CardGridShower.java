@@ -20,7 +20,7 @@ public class CardGridShower extends JPanel {
         this.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 50));
         for (Recipe recipe: allRecipes)
         {
-            this.add(new CardPanel(mfc, recipe.getRecipeID(), recipe.getTitle(), recipe.getThumbImagePath(), panel));
+            this.add(new CardPanel(mfc, recipe.getRecipeID(), recipe.getTitle(), recipe.getImagePath(), panel));
         }
     }
     public void setAllRecipes(List<Recipe> allRecipes){

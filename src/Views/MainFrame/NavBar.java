@@ -27,9 +27,9 @@ public class NavBar extends JPanel {
         JButton button3 = new JButton("Favorites");
 
         // Add action listeners to the buttons to handle navigation
-        button1.addActionListener(new Nav1Listener());
-        button2.addActionListener(new Nav2Listener());
-        button3.addActionListener(new Nav3Listener());
+        button1.addActionListener(new PersonalCookBookListener());
+        button2.addActionListener(new SearchPageListener());
+        button3.addActionListener(new FavoritesListener());
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -41,7 +41,7 @@ public class NavBar extends JPanel {
     }
 
     // ActionListener to handle button clicks for navigation
-    private class Nav1Listener implements ActionListener {
+    private class PersonalCookBookListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
@@ -53,13 +53,13 @@ public class NavBar extends JPanel {
             }
         }
     }
-    private class Nav2Listener implements ActionListener {
+    private class SearchPageListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainFrame.mfc.createAndDisplaySearchPan();
         }
     }
-    private class Nav3Listener implements ActionListener {
+    private class FavoritesListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             mainFrame.mfc.createAndDisplayFavPan();

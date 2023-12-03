@@ -28,19 +28,8 @@ public class CardPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.setSize(300, 200);
         this.setPreferredSize(new Dimension(300,200));
-        DataCollector dCol = new DataCollector();
-        this.img = dCol.loadImage(thumbUrl).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
-        img.getScaledInstance(300, 200, Image.SCALE_DEFAULT);
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.setBorder(new EmptyBorder(0,10,0,0));
-        titleLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBackground(new Color(128, 128, 128, 150));
-        titleLabel.setOpaque(true);
-        titleLabel.setPreferredSize(new Dimension(200, 50));
-        titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        titleLabel.setVerticalAlignment(SwingConstants.CENTER);
-        this.add(titleLabel, BorderLayout.SOUTH);
+        this.img = DataCollector.loadImage(thumbUrl).getScaledInstance(300, 200, Image.SCALE_DEFAULT);
+        this.add(new titleLabel(title), BorderLayout.SOUTH);
         this.addMouseListener(new mouseClick());
         this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 
@@ -64,6 +53,20 @@ public class CardPanel extends JPanel {
                 JOptionPane.showMessageDialog(null, "Problem occurred during the loading of the Recipe" + panel.title);
                 throw new RuntimeException(ex);
             }
+        }
+    }
+    class titleLabel extends JLabel {
+        public titleLabel(String title) {
+            super(title);
+            setBorder(new EmptyBorder(0,10,0,0));
+            setFont(new Font("Verdana", Font.PLAIN, 18));
+            setForeground(Color.WHITE);
+            setBackground(new Color(128, 128, 128, 150));
+            setOpaque(true);
+            setPreferredSize(new Dimension(200, 50));
+            setHorizontalAlignment(SwingConstants.LEFT);
+            setVerticalAlignment(SwingConstants.CENTER);
+
         }
     }
 }
