@@ -20,13 +20,14 @@ public class ReadPanel extends JPanel {
     public ReadPanel(MainFrameController mfc, Recipe recipe){
         this.recipe = recipe;
         this.mfc = mfc;
+
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         setBackground(new Color(102, 227, 102,55));
-
         add(new imagePanel(DataCollector.loadImage(recipe.getImagePath()).getScaledInstance(600, 400, Image.SCALE_DEFAULT)));
 
 
         JLabel titleLabel = new JLabel(recipe.getTitle());
+        titleLabel.setMaximumSize(new Dimension(1000, 0));
         titleLabel.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 30));
         add(titleLabel);
 
@@ -40,10 +41,11 @@ public class ReadPanel extends JPanel {
         add(new AttributeShower("Cuisine Type", recipeDetail.getCuisineType(), 22));
         add(new AttributeShower("Nutritional Info", recipeDetail.getNutritionalAttributes(), 22));
         add(new AttributeShower("Caloric Info", recipeDetail.getCaloricInfo(), 18));
-        setBorder(new EmptyBorder(5,120,30,120));
+        setBorder(new EmptyBorder(5,100,30,100));
 
         JButton updateBtn = new JButton("Update recipe");
         JPanel updatePanel = new JPanel();
+        updatePanel.setMaximumSize(new Dimension(1000, 0));
         updateBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,6 +56,7 @@ public class ReadPanel extends JPanel {
         });
         updatePanel.add(updateBtn);
         add(updatePanel);
+
     }
     class imagePanel extends JPanel{
         private Image img;

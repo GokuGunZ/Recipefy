@@ -34,7 +34,7 @@ public class CategoryPanel extends JPanel {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 try {
-                    CategoryController.renderRecipeCategory(mfc, tagList.getSelectedValue(), recipePanel);
+                    CategoryController.renderRecipeCategory(mfc, tagList.getSelectedValue(), (UserPanel) mfc.getMainPanel());
                 } catch (SQLException | IOException ex) {
                     throw new RuntimeException(ex);
                 }

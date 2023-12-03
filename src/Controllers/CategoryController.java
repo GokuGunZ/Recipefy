@@ -5,8 +5,8 @@ import Beans.Recipe;
 import Models.RecipeModel;
 import Views.Category._Manage;
 import Views.Recipe.CardGridShower;
+import Views.User.UserPanel;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,11 +16,11 @@ public class CategoryController {
         new _Manage(categories);
     }
 
-    public static void renderRecipeCategory(MainFrameController mfc, int tagID, JPanel recipePanel) throws SQLException, IOException {
+    public static void renderRecipeCategory(MainFrameController mfc, int tagID, UserPanel userPanel) throws SQLException, IOException {
         List<Integer> recipeIDsList = RecipeModel.getRecipeIDsByTag(tagID);
         if(!recipeIDsList.isEmpty()){
             List<Recipe> recipeList = RecipeModel.getRecipeByList(recipeIDsList);
-            CardGridShower cgs = new CardGridShower(mfc, recipePanel);
+            CardGridShower cgs = new CardGridShower(mfc, userPanel);
             cgs.setAllRecipes(recipeList);
             cgs.displayRecipes();
         }
