@@ -56,7 +56,6 @@ public class CategoryPanel extends JPanel {
         mngTagPnl.add(mngTagBtn);
         CategoryPanel.add(mngTagPnl);
         this.add(CategoryPanel, BorderLayout.NORTH);
-        this.add(new JSeparator(), BorderLayout.CENTER);
         this.add(recipePanel);
 
     }

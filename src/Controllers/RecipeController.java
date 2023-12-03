@@ -9,15 +9,17 @@ import Views.Recipe.ReadPanel;
 import Views.User.UserPanel;
 
 import javax.swing.*;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 public class RecipeController {
-    public static boolean createRecipe(CreatePanel cP) throws SQLException{
-        int recipeID = RecipeModel.createRecipe(cP.mfc.getUser().getUserID(), cP.getTitle());
+    public static int createRecipe(CreatePanel cP) throws SQLException, URISyntaxException {
+        int recipeID = RecipeModel.createRecipe(cP.mfc.getUser().getUserID(), cP.getTitle(), cP.getImagePath());
         int recipeDetailsID = RecipeDetailsModel.createRecipeDetail(recipeID, cP);
         RecipeModel.addRecipeDetail(recipeID, recipeDetailsID);
+        cP.saveImage();
         JOptionPane.showMessageDialog(null, "Created successfully!");
-        return true;
+        return recipeID;
     }
 
     public static void showRecipe(MainFrameController mfc, int recipeID, UserPanel userPanel) throws SQLException {

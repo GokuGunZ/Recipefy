@@ -26,7 +26,7 @@ public class Recipe {
         this.title = resultSet.getString("Title");
         this.recipeDetailID = resultSet.getInt("RecipeDetailID");
         this.originalRecipeID = resultSet.getInt("OriginalRecipeID");
-        this.thumbImagePath = resultSet.getString("ThumbImagePath");
+        this.thumbImagePath = resultSet.getString("ImagePath");
     }
     public void setRecipeDetail(RecipeDetail recipeDetail){
         this.recipeDetail = recipeDetail;

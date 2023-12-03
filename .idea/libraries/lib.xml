@@ -3,6 +3,7 @@
     <CLASSES>
       <root url="file://$PROJECT_DIR$/lib" />
       <root url="jar://$USER_HOME$/Downloads/jar_files/json-20231013.jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/flatlaf-3.2.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

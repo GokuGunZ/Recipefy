@@ -18,10 +18,12 @@ public class CategoryController {
 
     public static void renderRecipeCategory(MainFrameController mfc, int tagID, JPanel recipePanel) throws SQLException, IOException {
         List<Integer> recipeIDsList = RecipeModel.getRecipeIDsByTag(tagID);
-        List<Recipe> recipeList = RecipeModel.getRecipeByList(recipeIDsList);
-        CardGridShower cgs = new CardGridShower(mfc, recipePanel);
-        cgs.setAllRecipes(recipeList);
-        cgs.displayRecipes();
+        if(!recipeIDsList.isEmpty()){
+            List<Recipe> recipeList = RecipeModel.getRecipeByList(recipeIDsList);
+            CardGridShower cgs = new CardGridShower(mfc, recipePanel);
+            cgs.setAllRecipes(recipeList);
+            cgs.displayRecipes();
+        }
 
     }
 }

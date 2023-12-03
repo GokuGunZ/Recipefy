@@ -3,7 +3,9 @@ package Models;
 
 import Beans.Recipe;
 import Controllers.MainFrameController;
+import Controllers.RecipeController;
 import Utility.DatabaseConnection;
+import Views.User.UserPanel;
 
 import javax.swing.*;
 import java.sql.*;
@@ -35,12 +37,13 @@ public class RecipeModel implements UpdateableModel{
 
     }
 
-    public static int createRecipe(int userID, String title) throws SQLException {
+    public static int createRecipe(int userID, String title, String imagePath) throws SQLException {
         Connection DBConn = DatabaseConnection.getInstance();
-        String selectUserQuery = "INSERT INTO recipe (UserID, Title) VALUES (?, ?)";
+        String selectUserQuery = "INSERT INTO recipe (UserID, Title, ImagePath) VALUES (?, ?, ?)";
         PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery, Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setInt(1, userID);
         preparedStatement.setString(2, title);
+        preparedStatement.setString(3, imagePath);
         int insertedRows = preparedStatement.executeUpdate();
         if (insertedRows == 0) {
             throw new RuntimeException("Creating recipe failed, no rows affected.");
@@ -50,11 +53,11 @@ public class RecipeModel implements UpdateableModel{
         return generatedKeys.getInt(1);
     }
 
-    public static boolean addRecipeDetail(int recipeID, int recipeDetailsID) throws  SQLException{
+    public static boolean addRecipeDetail(int recipeID, int recipeDetailID) throws  SQLException{
         Connection DBConn = DatabaseConnection.getInstance();
-        String selectUserQuery = "UPDATE recipe SET recipeDetailsID = ? WHERE recipeID = ?";
+        String selectUserQuery = "UPDATE recipe SET recipeDetailID = ? WHERE recipeID = ?";
         PreparedStatement preparedStatement = DBConn.prepareStatement(selectUserQuery, Statement.RETURN_GENERATED_KEYS);
-        preparedStatement.setInt(1, recipeDetailsID);
+        preparedStatement.setInt(1, recipeDetailID);
         preparedStatement.setInt(2, recipeID);
         int insertedRows = preparedStatement.executeUpdate();
         return true;
@@ -132,7 +135,7 @@ public class RecipeModel implements UpdateableModel{
     public int getRecipeDetailsID() {return recipeDetailsID;};
 
     @Override
-    public void updateModel(List<Object> attributes) throws SQLException {
+    public boolean updateModel(List<Object> attributes) throws SQLException {
         int recipeID = (Integer)attributes.get(0);
         Connection DBConn = DatabaseConnection.getInstance();
         String updateRecipeQuery = "UPDATE recipe SET title = ? where recipeID = ?";
@@ -143,7 +146,7 @@ public class RecipeModel implements UpdateableModel{
         if (updatedRows != 1){
             JOptionPane.showMessageDialog(null, "Error during the update");
             preparedStatement.close();
-            return;
+            return false;
         }
         String updateRecipeDetailQuery = "UPDATE recipeDetail SET Title = ?, Description = ?, Ingredients = ?, Instruction = ?, PreparationTime = ?, CookingTime = ?, DifficultyLevel = ?, CuisineType = ?, NutritionalAttribute = ?, CaloricInfo = ? where recipeID = ?";
         preparedStatement = DBConn.prepareStatement(updateRecipeDetailQuery);
@@ -162,8 +165,15 @@ public class RecipeModel implements UpdateableModel{
         preparedStatement.close();
         if (updatedRows != 0){
             JOptionPane.showMessageDialog(null, "Information updated correctly!");
+            return true;
         } else {
             JOptionPane.showMessageDialog(null, "Error during the update");
+            return false;
         }
+    }
+
+    @Override
+    public void showModel(MainFrameController mfc) throws SQLException {
+        RecipeController.showRecipe(mfc, mfc.getRecipeID(), (UserPanel) mfc.getMainPanel());
     }
 }

@@ -3,11 +3,14 @@ package Views.Recipe;
 import Controllers.MainFrameController;
 import Controllers.RecipeController;
 import Views.UIComponents.FormPanel;
+import Views.UIComponents.ImageUploaderPanel;
+import Views.User.UserPanel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 public class CreatePanel extends JPanel {
@@ -24,12 +27,18 @@ public class CreatePanel extends JPanel {
     private JComboBox<String> cuisineSelector;
     private JList nutritionalList;
     private JTextField caloricInfo;
+    private String imagePath;
+    private ImageUploaderPanel imageUploaderPanel;
     public CreatePanel(MainFrameController mfc){
         this.mfc = mfc;
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 
+        JPanel titleImagePanel = new JPanel(new FlowLayout());
         titleField = new JTextField(20);
-        this.add(new FormPanel("Recipe title: ", titleField));
+        titleImagePanel.add(new FormPanel("Recipe title: ", titleField));
+        imageUploaderPanel= new ImageUploaderPanel();
+        titleImagePanel.add(imageUploaderPanel);
+        add(titleImagePanel);
 
 
         descriptionField = new JTextField(20);
@@ -105,8 +114,10 @@ public class CreatePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    RecipeController.createRecipe(cp);
-                } catch (SQLException ex) {
+                    imagePath = imageUploaderPanel.getImagePath();
+                    int recipeID = RecipeController.createRecipe(cp);
+                    RecipeController.showRecipe(mfc, recipeID, (UserPanel) mfc.getMainPanel());
+                } catch (SQLException | URISyntaxException ex) {
                     throw new RuntimeException(ex);
                 }
             }
@@ -114,7 +125,7 @@ public class CreatePanel extends JPanel {
         this.add(createButton);
 
     }
-
+    public void saveImage() throws URISyntaxException {imageUploaderPanel.saveImageFinal();}
     private void addIngredientFields() {
         JPanel newIngredientPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         newIngredientPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -181,6 +192,7 @@ public class CreatePanel extends JPanel {
     }
 
     public String getTitle() {return titleField.getText();}
+    public String getImagePath() {return imagePath;}
     public String getDescription() {return descriptionField.getText();}
     public JPanel getIngredientPanel() {return ingredientPanel;}
     public JPanel getInstructionPanel() {return instructionPanel;}

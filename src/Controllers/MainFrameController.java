@@ -14,6 +14,7 @@ public class MainFrameController {
     private User authedUser;
     private UserController userController;
     private MainPanel mainPanel;
+    private int recipeID;
 
     public MainFrameController(MainFrame mainFrame){
         this.mainFrame = mainFrame;
@@ -49,4 +50,7 @@ public class MainFrameController {
 
     public UserController getUserController() {return this.userController;}
     public MainPanel getMainPanel() {return this.mainPanel;}
+
+    public int getRecipeID() {return recipeID;}
+    public void setRecipeID(int id) {recipeID=id;}
 }

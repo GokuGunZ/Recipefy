@@ -37,6 +37,7 @@ public class UpdatePanel extends JPanel implements UpdateableView {
     public UpdatePanel(Recipe recipe, MainFrameController mfc){
         this.mfc = mfc;
         this.recipe = recipe;
+        this.mfc.setRecipeID(recipe.getRecipeID());
         setBorder(new EmptyBorder(40, 100, 40, 100));
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
 

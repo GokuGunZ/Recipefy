@@ -1,7 +1,9 @@
 package Views.MainFrame;
+
 import Beans.User;
 import Controllers.MainFrameController;
 import Views.Recipefy.LoginFrame;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +16,11 @@ public class MainFrame extends JFrame{
 
     public MainFrame(){
         super("Recipefy");
+        try {
+            UIManager.setLookAndFeel( new FlatLightLaf() );
+        } catch( Exception ex ) {
+            System.err.println( "Failed to initialize LaF" );
+        }
         mfc = new MainFrameController(this);
 
         Toolkit kit = Toolkit.getDefaultToolkit();

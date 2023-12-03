@@ -4,8 +4,11 @@ import Beans.User;
 import Controllers.MainFrameController;
 import Utility.DataValidator;
 import Utility.DatabaseConnection;
+import Views.User.ReadPanel;
+import Views.User.UserPanel;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 
@@ -145,34 +148,46 @@ public class UserModel implements UpdateableModel{
         return psw.equals(password);
     }
     @Override
-    public void updateModel(List<Object> attributes) throws SQLException {
+    public boolean updateModel(List<Object> attributes) throws SQLException {
         User user = mfc.getUser();
         int updatedRows = 0;
         String newPass = (String) attributes.get(5);
-        if (!DataValidator.isStrongPassword(newPass)){
+        if(newPass.isEmpty()){
+            newPass = (String) attributes.get(6);
+        } else if (!DataValidator.isStrongPassword(newPass)){
             JOptionPane.showMessageDialog(null, "New password must be 8 character long and contain at least one number!");
-            return;
+            return false;
         }
         String psw = (String) attributes.get(6);
         if (checkPassword(user.getUserID(), psw)){
             Connection DBConn = DatabaseConnection.getInstance();
-            String updateUserQuery = "UPDATE user SET username = ?, email = ?, password = ? where UserID = ?";
+            String updateUserQuery = "UPDATE user SET name = ?, bio = ?, email = ?, password = ? where UserID = ?";
             PreparedStatement preparedStatement = DBConn.prepareStatement(updateUserQuery);
             preparedStatement.setString(1, (String) attributes.get(0));
-            preparedStatement.setString(2, (String) attributes.get(4));
-            preparedStatement.setString(3, (String) attributes.get(5));
-            preparedStatement.setInt(4, user.getUserID());
+            preparedStatement.setString(2, (String) attributes.get(1));
+            preparedStatement.setString(3, (String) attributes.get(4));
+            preparedStatement.setString(4, newPass);
+            preparedStatement.setInt(5, user.getUserID());
             updatedRows = preparedStatement.executeUpdate();
             preparedStatement.close();
             if (updatedRows != 0){
                 JOptionPane.showMessageDialog(null, "Information updated correctly!");
+                return true;
             } else {
                 JOptionPane.showMessageDialog(null, "Error during the update");
+                return false;
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Inserted password is incorrect!");
+            JOptionPane.showMessageDialog(null, "Inserted old password is incorrect!");
+            return false;
         }
 
+    }
+
+    @Override
+    public void showModel(MainFrameController mfc) throws SQLException, IOException {
+        UserPanel userPanel = (UserPanel) mfc.getMainPanel();
+        userPanel.updateCenterPanel(new ReadPanel(mfc));
     }
 
 }
