@@ -2,16 +2,20 @@ package Views.Recipe;
 
 import Beans.Recipe;
 import Beans.RecipeDetail;
+import Beans.RecipeDetail.Ingredient;
 import Controllers.MainFrameController;
 import Utility.DataCollector;
 import Views.UIComponents.AttributeShower;
 import Views.User.UserPanel;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
+import java.util.List;
 
 public class ReadPanel extends JPanel {
     private Recipe recipe;
@@ -33,7 +37,7 @@ public class ReadPanel extends JPanel {
 
         RecipeDetail recipeDetail = recipe.getRecipeDetail();
         add(new AttributeShower("Description", recipeDetail.getDescription(),20));
-        add(new AttributeShower("Ingredients", recipeDetail.getIngredients(), 18));
+        add(getIngredientsPanel(recipeDetail.getIngredients()));
         add(new AttributeShower("Instructions", recipeDetail.getInstruction(), 22));
         add(new AttributeShower("Preparation Time", recipeDetail.getPreparationTime(), 16));
         add(new AttributeShower("Cooking Time", recipeDetail.getCookingTime(), 16));
@@ -58,6 +62,28 @@ public class ReadPanel extends JPanel {
         add(updatePanel);
 
     }
+    private JPanel getIngredientsPanel(String jsonString){
+        JPanel ingredientPanel = new JPanel();
+        ingredientPanel.setLayout(new BoxLayout(ingredientPanel, BoxLayout.Y_AXIS));
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Ingredient[] ingredientsArray = objectMapper.readValue(jsonString, Ingredient[].class);
+            List<Ingredient> ingredientsList = Arrays.asList(ingredientsArray);
+
+            // Printing the ingredients
+            for (Ingredient ingredient : ingredientsList) {
+                JPanel ingredientRow = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                ingredientRow.add(new AttributeShower("Qty",ingredient.getQty(), 20));
+                ingredientRow.add(new AttributeShower("Unit",ingredient.getUnit(), 20));
+                ingredientRow.add(new AttributeShower("Entity",ingredient.getEntity(), 20));
+                ingredientPanel.add(ingredientRow);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ingredientPanel;
+    }
+
     class imagePanel extends JPanel{
         private Image img;
         public imagePanel(Image image){

@@ -1,5 +1,8 @@
 package Beans;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -36,6 +39,33 @@ public class RecipeDetail {
         this.caloricInfo = resultSet.getString(14);
         this.ratings = resultSet.getInt(15);
 
+    }
+
+    public static class Ingredient {
+        private String Qty;
+        private String Unit;
+        private String Entity;
+
+        public String getQty() {return Qty;}
+
+        public void setQty(String qty) {Qty = qty;}
+
+        public String getUnit() {return Unit;}
+
+        public void setUnit(String unit) {Unit = unit;}
+
+        public String getEntity() {return Entity;}
+
+        public void setEntity(String entity) {Entity = entity;}
+        @JsonCreator
+        public Ingredient(
+                @JsonProperty("Qty:") String qty,
+                @JsonProperty("Unit:") String unit,
+                @JsonProperty("Entity:") String entity) {
+            this.Qty = qty;
+            this.Unit = unit;
+            this.Entity = entity;
+        }
     }
     public int getRecipeDetailID() { return this.recipeDetailID; }
     public int getRecipeID() { return this.recipeID; }
