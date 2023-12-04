@@ -1,11 +1,11 @@
 package Views.MainFrame;
 
+import Controllers.NavBarListener.FavoritesListener;
+import Controllers.NavBarListener.PersonalCookBookListener;
+import Controllers.NavBarListener.SearchPageListener;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.sql.SQLException;
 
 public class NavBar extends JPanel {
     private MainFrame mainFrame;
@@ -27,9 +27,9 @@ public class NavBar extends JPanel {
         JButton button3 = new JButton("Favorites");
 
         // Add action listeners to the buttons to handle navigation
-        button1.addActionListener(new PersonalCookBookListener());
-        button2.addActionListener(new SearchPageListener());
-        button3.addActionListener(new FavoritesListener());
+        button1.addActionListener(new PersonalCookBookListener(mainFrame.getMainFrameController()));
+        button2.addActionListener(new SearchPageListener(mainFrame.getMainFrameController()));
+        button3.addActionListener(new FavoritesListener(mainFrame.getMainFrameController()));
 
         buttonPanel.add(button1);
         buttonPanel.add(button2);
@@ -38,31 +38,5 @@ public class NavBar extends JPanel {
         this.add(buttonPanel);
 
         this.add(new JLabel(""));
-    }
-
-    // ActionListener to handle button clicks for navigation
-    private class PersonalCookBookListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            try {
-                mainFrame.mfc.createAndDisplayUserPan();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (SQLException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
-    }
-    private class SearchPageListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            mainFrame.mfc.createAndDisplaySearchPan();
-        }
-    }
-    private class FavoritesListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            mainFrame.mfc.createAndDisplayFavPan();
-        }
     }
 }

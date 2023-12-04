@@ -11,7 +11,7 @@ import java.awt.*;
 public class MainFrame extends JFrame{
 
     private JPanel mainPanel;
-    public MainFrameController mfc;
+    private MainFrameController mfc;
     private User userAuthed;
 
     public MainFrame(){
@@ -27,7 +27,7 @@ public class MainFrame extends JFrame{
         Dimension screenSize = kit.getScreenSize();
         int screenHeight = screenSize.height;
         int screenWidth = screenSize.width;
-        this.setSize(screenWidth*84/100, screenHeight*84/100);
+        this.setSize(screenWidth*90/100, screenHeight*84/100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
 
@@ -65,6 +65,7 @@ public class MainFrame extends JFrame{
         this.repaint();
     }
 
+    public MainFrameController getMainFrameController() {return this.mfc;}
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MainFrame::new);
     }

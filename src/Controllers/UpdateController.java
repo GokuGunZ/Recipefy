@@ -16,8 +16,8 @@ public class UpdateController {
     public UpdateController(MainFrameController mfc, UpdateableView updView, UpdateableModel updModel){
         this.mfc = mfc;
         this.updView = updView;
-        updView.setUpdateButtonListener(new UpdateButtonListener());
         this.updModel = updModel;
+        updView.setUpdateButtonListener(new UpdateButtonListener());
     }
 
     public class UpdateButtonListener implements ActionListener{

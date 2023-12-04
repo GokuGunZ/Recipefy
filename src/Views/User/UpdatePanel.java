@@ -9,12 +9,12 @@ import Views.UpdateableView;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UpdatePanel extends JPanel implements UpdateableView {
+    private ActionListener updateButtonListener;
     private User authedUser;
     private JButton updateButton;
     private JTextField name;
@@ -24,7 +24,6 @@ public class UpdatePanel extends JPanel implements UpdateableView {
     private JTextField email;
     private JPasswordField password;
     private JPasswordField oldPsw;
-    private ActionListener updateButtonListener;
     public UpdatePanel(User user, MainFrameController mfc){
         this.authedUser = user;
         setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
@@ -49,12 +48,9 @@ public class UpdatePanel extends JPanel implements UpdateableView {
 
 
         updateButton = new JButton("Save Updated Information");
-        updateButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (updateButtonListener != null) {
-                    updateButtonListener.actionPerformed(e);
-                }
+        updateButton.addActionListener(e -> {
+            if (updateButtonListener != null) {
+                updateButtonListener.actionPerformed(e);
             }
         });
 

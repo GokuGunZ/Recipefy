@@ -50,12 +50,7 @@ import java.util.List;
  */
 public class UserModel implements UpdateableModel{
     MainFrameController mfc;
-    int userID;
     public String username;
-    String email;
-    String Password;
-    //Enumeration UserType;
-    RecipeModel[] RecipeList;
     public UserModel(MainFrameController mfc){
         this.mfc = mfc;
     }

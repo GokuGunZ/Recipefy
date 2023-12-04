@@ -17,8 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UpdatePanel extends JPanel implements UpdateableView {
-    public MainFrameController mfc;
+    private ActionListener updateButtonListener;
     private JTextField titleField;
+    public MainFrameController mfc;
     private JTextField descriptionField;
     private JPanel ingredientPanel;
     private JButton addIngredientButton;
@@ -33,7 +34,6 @@ public class UpdatePanel extends JPanel implements UpdateableView {
     private Recipe recipe;
     private RecipeDetail recipeDetail;
     private JButton updateButton;
-    private ActionListener updateButtonListener;
     public UpdatePanel(Recipe recipe, MainFrameController mfc){
         this.mfc = mfc;
         this.recipe = recipe;

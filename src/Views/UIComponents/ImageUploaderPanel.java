@@ -51,6 +51,9 @@ public class ImageUploaderPanel extends JPanel {
     }
 
     private void saveImage(File imageFile) throws URISyntaxException {
+        if (imageFile == null){
+            return;
+        }
         URI imageUri = getClass().getResource("/images/").toURI();
         String imagePath = Paths.get(imageUri).toString();
         Path imageDirectory = Path.of(imagePath);

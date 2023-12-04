@@ -114,7 +114,11 @@ public class CreatePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    imagePath = imageUploaderPanel.getImagePath();
+                    if(imageUploaderPanel.getImagePath() == null){
+                        imagePath = "/images/placeholder.jpg";
+                    } else {
+                        imagePath = imageUploaderPanel.getImagePath();
+                    }
                     int recipeID = RecipeController.createRecipe(cp);
                     RecipeController.showRecipe(mfc, recipeID, (UserPanel) mfc.getMainPanel());
                 } catch (SQLException | URISyntaxException ex) {
@@ -196,8 +200,16 @@ public class CreatePanel extends JPanel {
     public String getDescription() {return descriptionField.getText();}
     public JPanel getIngredientPanel() {return ingredientPanel;}
     public JPanel getInstructionPanel() {return instructionPanel;}
-    public int getPrepTime() {return Integer.parseInt(prepTime.getText());}
-    public int getCookTime() {return Integer.parseInt(cookTime.getText());}
+    public int getPrepTime() {
+        if (prepTime.getText()==""){
+            return 0;
+        }
+        return Integer.parseInt(prepTime.getText());}
+    public int getCookTime() {
+        if (cookTime.getText()==""){
+            return 0;
+        }
+        return Integer.parseInt(cookTime.getText());}
     public String getDifficulty() {return String.valueOf(difficultyLvl.getSelectedItem());}
     public String getCuisine() {return String.valueOf(cuisineSelector.getSelectedItem());}
     public String getCaloricInfo() {return caloricInfo.getText();}

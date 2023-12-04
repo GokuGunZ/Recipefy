@@ -3,6 +3,7 @@ package Models;
 import Beans.RecipeDetail;
 import Utility.DatabaseConnection;
 import Views.Recipe.CreatePanel;
+import Views.UIComponents.FormPanel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -53,22 +54,27 @@ public class RecipeDetailsModel {
         return recipeDetail;
     }
 
-    // Inside your RecipeCreationView class
     private static JSONArray collectIngredientsData(JPanel ingredientPanel) {
         JSONArray ingredientsArray = new JSONArray();
 
         for (Component component : ingredientPanel.getComponents()) {
+
+
             if (component instanceof JPanel) {
                 JSONObject ingredientObject = new JSONObject();
                 JPanel ingredientComponent = (JPanel) component;
                 String fieldLabel = "";
-                for (Component field : ingredientComponent.getComponents()) {
-                    if (field instanceof JLabel){
-                        fieldLabel = ((JLabel) field).getText();
-                    }
-                    if (field instanceof JTextField) {
-                        JTextField textField = (JTextField) field;
-                        ingredientObject.put(fieldLabel, textField.getText());
+                for (Component row : ingredientComponent.getComponents()) {
+                    if (row instanceof FormPanel){
+                        for (Component element : ((FormPanel) row).getComponents()){
+                            if (element instanceof JLabel){
+                                fieldLabel = ((JLabel) element).getText();
+                            }
+                            if (element instanceof JTextField) {
+                                JTextField textField = (JTextField) element;
+                                ingredientObject.put(fieldLabel, textField.getText());
+                            }
+                        }
                     }
                 }
                 ingredientsArray.put(ingredientObject);
@@ -78,17 +84,27 @@ public class RecipeDetailsModel {
     }
     private static JSONArray collectInstructionsData(JPanel instructionPanel) {
         JSONArray instructionsArray = new JSONArray();
-
+        String fieldLabel = "";
         Component[] components = instructionPanel.getComponents();
         for (Component component : components) {
+
             if (component instanceof JPanel) {
                 JPanel instructionStepPanel = (JPanel) component;
 
-                for (Component field : instructionStepPanel.getComponents()) {
-                    if (field instanceof JTextArea) {
-                        JTextArea textArea = (JTextArea) field;
-                        String text = textArea.getText();
-                        instructionsArray.put(text);
+                for (Component row : instructionStepPanel.getComponents()) {
+                    if (row instanceof FormPanel){
+                        JSONObject ingredientObject = new JSONObject();
+                        for (Component element : ((FormPanel) row).getComponents()){
+                            if (element instanceof JLabel){
+                                fieldLabel = ((JLabel) element).getText();
+                            }
+                            if (element instanceof JTextField) {
+                                JTextField textField = (JTextField) element;
+                                String text = textField.getText();
+                                ingredientObject.put(fieldLabel, text);
+                            }
+                        }
+                        instructionsArray.put(ingredientObject);
                     }
                 }
             }

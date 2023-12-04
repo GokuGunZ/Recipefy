@@ -10,7 +10,9 @@ public class AttributeShower extends JPanel {
         this.label = label;
         this.value = value;
 
-        setMaximumSize(new Dimension(1000, 0));
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension screenSize = kit.getScreenSize();
+        setMaximumSize(new Dimension(screenSize.width*70/100, 0));
         setLayout(new GridLayout(2,1));
         JLabel labelJl = new JLabel(label);
         Font labelFont = new Font("Arial", Font.PLAIN, 14);

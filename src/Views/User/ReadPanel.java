@@ -16,19 +16,18 @@ public class ReadPanel extends JPanel {
     public ReadPanel(MainFrameController mfc){
         this.mfc = mfc;
         user = mfc.getUser();
-        this.setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+
         JPanel updatePanel = new JPanel(new BorderLayout());
         JButton updateBtn = new JButton("Update your information");
 
 
-        JPanel infoPanel = new JPanel();
-        infoPanel.setLayout(new BoxLayout(infoPanel,BoxLayout.Y_AXIS));
-        infoPanel.add(new AttributeShower("Nome", user.getName(), 25));
-        infoPanel.add(new AttributeShower("Bio", user.getBio(), 20));
-        infoPanel.add(new AttributeShower("Preferenze", "To be implemented", 20));
-        infoPanel.add(new AttributeShower("Allergeni", "To be implemented", 20));
-        infoPanel.add(new AttributeShower("eMail", user.getEmail(), 20));
-        infoPanel.setBorder(new EmptyBorder(5,150,30,20));
+        add(new AttributeShower("Name", user.getName(), 25));
+        add(new AttributeShower("Bio", user.getBio(), 20));
+        add(new AttributeShower("Preferenze", "To be implemented", 20));
+        add(new AttributeShower("Allergeni", "To be implemented", 20));
+        add(new AttributeShower("eMail", user.getEmail(), 20));
+        setBorder(new EmptyBorder(15,110,30,110));
 
         updateBtn.addActionListener(new ActionListener() {
             @Override
@@ -38,10 +37,9 @@ public class ReadPanel extends JPanel {
                 userPanel.updateCenterPanel(new UpdatePanel(user, mfc));
             }
         });
-        updatePanel.add(updateBtn, BorderLayout.EAST);
-        this.add(updatePanel, BorderLayout.NORTH);
+        updatePanel.add(updateBtn, BorderLayout.SOUTH);
+        add(updatePanel);
 
-        this.add(infoPanel, BorderLayout.CENTER);
 
     }
 }

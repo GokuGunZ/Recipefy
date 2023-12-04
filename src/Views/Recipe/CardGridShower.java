@@ -5,6 +5,7 @@ import Controllers.MainFrameController;
 import Views.User.UserPanel;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +17,7 @@ public class CardGridShower extends JPanel {
     public CardGridShower(MainFrameController mfc, UserPanel userPanel){
         this.mfc = mfc;
         this.userPanel = userPanel;
+        setBorder(new EmptyBorder(30,30,30,30));
     }
     public void displayRecipes() throws IOException {
         this.setLayout(new GridLayout(0, 3, 50, 50));
