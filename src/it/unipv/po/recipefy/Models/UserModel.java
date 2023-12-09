@@ -174,7 +174,7 @@ public class UserModel implements UpdateableModel{
             }
         } else {
             JOptionPane.showMessageDialog(null, "Inserted old password is incorrect!");
-            return false;
+                 return false;
         }
 
     }
